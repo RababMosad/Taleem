@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عرض
- فيديو يوتيوب</title>
+  <title>عرض محتوىءالدورة</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
   <style>
     .video-container {
@@ -29,7 +28,7 @@
 
     <div class="container"> 
 
-        <h2>الفيديوهات الخاصة بالدورة </h2>
+        <h3>  @lang('messages.Course Videos') </h3>
         <div class="row">
           @foreach ($videos as $video)
             <div class="col-md-4 mb-4">

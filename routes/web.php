@@ -9,8 +9,11 @@ use App\Http\Controllers\ManagerDashboardController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\SubscriberDashboardController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\LocalController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VideosController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,18 +31,13 @@ Route::middleware([
 });
 
 Route::get('/courses', [CourseController::class, 'index']);
-Route::get('local/{lang}', [LocalController::class, 'setLocale'])->name('locale.switch');;
+Route::get('local/{lang}', [LocalController::class, 'setLocale'])->name('locale.switch');
 Route::get('/courses/{courseId}/videos', [VideosController::class, 'index'])->name('courses.videos');
-
 Route::get('/blog', [ArticleController::class, 'index'])->name('blog.index');
-// Route::middleware(['auth', 'role:manager'])->group(function () {
-//     Route::get('/manager/dashboard', [ManagerDashboardController::class, 'index'])->name('manager.dashboard');
-// });
 
-// Route::middleware(['auth', 'role:user'])->group(function () {
-//     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-// });
+Route::get('/Payment', [StripeController::class, 'index'])->name('index');
+Route::post('/stripe', [StripeController::class, 'stripe'])->name('stripe');
+Route::get('/success', [StripeController::class, 'success'])->name('success');
+Route::get('/cancel', [StripeController::class, 'cancel'])->name('cancel');
 
-// Route::middleware(['auth', 'role:subscriber'])->group(function () {
-//     Route::get('/subscriber/dashboard', [SubscriberDashboardController::class, 'index'])->name('subscriber.dashboard');
-// });
+

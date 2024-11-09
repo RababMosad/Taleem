@@ -10,5 +10,9 @@ return [
     'language'=>'language',
     'English'=>'English',
     'Arabic'=>'Arabic',
+    'blog'=>'blog',
+    'Main page'=>'Main page',
+    'Read More...'=>'Read More...',
+    'Course Videos'=> 'Course Videos',
 
 ];

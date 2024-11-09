@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
