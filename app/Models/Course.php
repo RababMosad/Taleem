@@ -14,6 +14,9 @@ class Course extends Model
         'video_title', 
         'is_active',
          'price'];
+
+    public $translatable = ['title', 'description'];
+    
     public function users()
     {
         return $this->belongsToMany(User::class);
@@ -21,7 +24,7 @@ class Course extends Model
 
     public function videos()
     {
-        return $this->hasMany(videos::class);
+        return $this->hasMany(video::class);
     }
 
     public function comments()
@@ -29,5 +32,13 @@ class Course extends Model
         return $this->hasMany(Comment::class); 
      
 
+    }
+    public function isPurchasedByUser($user) {
+        return $this->subscriptions()->where('user_id', $user->id)->exists(); 
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
     }
 }

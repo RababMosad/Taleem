@@ -31,10 +31,8 @@
             <div class="mt-4">
                 <label for="role" class="block font-medium text-sm text-gray-700">Role</label>
                 <select name="role" id="role" required class="mt-1 block w-full">
-                    <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
                     <option value="user">User</option>
-                    <option value="subscriber">Subscriber</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
 

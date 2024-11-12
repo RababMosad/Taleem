@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>صفحة الدورات</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet"   
+ href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
   <style>
     .course-cards {
       display: flex;
@@ -17,6 +18,7 @@
       margin-bottom: 20px;
     }
   </style>
+  @livewireStyles
 </head>
 <body dir="rtl">
 
@@ -29,7 +31,7 @@
         @foreach( $courses as $course)
         <div class="course-card col-md-4">
           <div class="card mb-4">
-            <a href="{{ route('courses.videos', ['courseId' => $course->id]) }}">
+            <a href="{{ route('dashboard') }}">
               <img class="card-img-top" src="{{ asset('images/' . $course->image_path) }}" alt="Card image cap">
             </a>
             <div class="card-body">
@@ -39,14 +41,19 @@
               <p><strong>عنوان الفيديو:</strong> {{ $course->video_title }}</p>
               <p><strong>حالة النشاط:</strong> {{ $course->is_active ? 'نشط' : 'غير نشط' }}</p>
               <p><strong>السعر:</strong> ${{ $course->price }}</p>
-              <form action="{{ route('stripe') }}" method="POST"> 
-                @csrf 
-                <input type="hidden" name="product_name" value="{{ $course->title }}"> 
-                <input type="hidden" name="price" value="{{ $course->price }}">
-                <input type="hidden" name="quantity" value="1">  
-                <button type="submit" class="btn btn-primary">اشتري الآن</button>
-            </form>
-              
+
+              @if ($course->isPurchasedByUser(auth()->user()) || auth()->user()->isAdmin())
+                  <a href="{{ route('courses.videos', ['courseId' => $course->id]) }}" class="btn btn-success">محتوى الدورة</a>
+              @else
+                <form action="{{ route('stripe') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_name" value="{{ $course->title }}">
+                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                    <input type="hidden" name="price" value="{{ $course->price }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="btn btn-primary">اشتري الآن</button>
+                </form>
+             @endif
             </div>
           </div>
         </div>  
@@ -57,5 +64,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+@livewireScripts
 </body>
 </html>

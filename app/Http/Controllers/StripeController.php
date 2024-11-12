@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Payment;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 class StripeController extends Controller
 {
     public function index(){
@@ -13,6 +14,8 @@ class StripeController extends Controller
     }
     public function stripe(Request $request)
        {
+
+        // dd($request->all());
            $stripe = new \Stripe\StripeClient('sk_test_51MZh8UDEQSSd7MLkCKYHVsjnbbFh6W5TUJMZnGx4v57ltL3FDTQy4wOkgqtzXHLDP8q0LsBPyu1XMkYy8dKxN0Zu00JFyR2pXL');
    
            $response = $stripe->checkout->sessions->create([
@@ -39,11 +42,15 @@ class StripeController extends Controller
                session()->put('product_name', $request->product_name);
                session()->put('quantity', $request->quantity);
                session()->put('price', $request->price);
+               session()->put('course_id', $request->input('course_id')); 
+               
    
                return redirect($response->url);
            } else {
                return redirect()->route('cancel');
            }
+           
+           
        }
 
        public function success(Request $request)
@@ -69,7 +76,14 @@ class StripeController extends Controller
                 $payment->payment_status = $response->status;
                 $payment->payment_method = "Stripe"; 
 
-                $payment->save();
+                
+
+                $subscription = new Subscription();
+                $subscription->course_id = $request->session()->get('course_id');
+                $subscription->user_id = auth()->user()->id; 
+                $subscription->save();
+                    
+                
 
                 session()->forget('product_name');
                 session()->forget('quantity');

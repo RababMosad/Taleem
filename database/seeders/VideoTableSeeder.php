@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Videos;
+use App\Models\Video;
 
 class VideoTableSeeder extends Seeder
 {
@@ -35,7 +35,7 @@ class VideoTableSeeder extends Seeder
 
 
         foreach ($videos as $videoData) {
-            Videos::create($videoData);
+            Video::create($videoData);
         }
     }
 }

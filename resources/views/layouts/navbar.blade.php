@@ -1,58 +1,58 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">@lang('messages.Taleem')</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          @yield('navbar-links')
-          <li class="nav-item">
-            <a href="{{ route('blog.index') }}" class="btn btn-success {{ request()->routeIs('blog.index') ? 'active' : '' }}"> 
-              <i class="nav-icon fas fa-book"></i> 
-              @lang('messages.blog')
+  <div class="container">
+    <a class="navbar-brand" href="#">@lang('messages.Taleem')</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      @if (auth()->user() && auth()->user()->isAdmin())
+        <a href="{{ route('admin') }}" class="btn btn-primary me-2">لوحة التحكم</a> @endif
+      <ul class="navbar-nav me-auto">  @yield('navbar-links')
+        <li class="nav-item">
+          <a href="{{ route('blog.index') }}" class="btn btn-success {{ request()->routeIs('blog.index') ? 'active' : '' }}">
+            <i class="nav-icon fas fa-book"></i> @lang('messages.blog')
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @lang('messages.language')
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="{{ route('locale.switch', 'ar') }}">ِ@lang('messages.Arabic')</a></li>
+            <li><a class="dropdown-item" href="{{ route('locale.switch', 'en') }}">@lang('messages.English')</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      @if (Route::has('login'))
+        <nav class="-mx-3 flex flex-1 justify-end">
+          @auth
+            <a href="{{ url('/dashboard') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+              @lang('messages.Main page')
             </a>
-          </li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              @lang('messages.language')
+  
+            <a href="{{ route('logout') }}" class=" btn btn-black rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              Log out
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="{{ route('locale.switch', 'ar') }}">ِ@lang('messages.Arabic')</a></li>
-              <li><a class="dropdown-item" href="{{ route('locale.switch', 'en') }}">@lang('messages.English')</a></li>
-            </ul>
-          </li>
-        </ul>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+            </form>
   
-        @if (Route::has('login'))
-          <nav class=" -mx-3 flex flex-1 justify-end">
-            @auth
-              <a href="{{ url('/dashboard') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
-                @lang('messages.Main page')
+          @else
+            <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+              Log in
+            </a>
+  
+            @if (Route::has('register'))
+              <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+                Register
               </a>
-  
-              <a href="{{ route('logout') }}" class=" btn btn-black rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                Log out
-              </a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-              </form>
-  
-            @else
-              <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
-                Log in
-              </a>
-  
-              @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
-                  Register
-                </a>
-              @endif
-            @endauth
-          </nav>
-        @endif
-      </div>
+            @endif
+          @endauth
+        </nav>
+      @endif
     </div>
-  </nav>
+  </div>
+</nav>
