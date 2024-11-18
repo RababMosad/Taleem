@@ -33,7 +33,7 @@ Route::middleware([
 Route::get('/courses', [CourseController::class, 'indexshow']);
 Route::get('local/{lang}', [LocalController::class, 'setLocale'])->name('locale.switch');
 Route::get('/courses/{courseId}/videos', [VideoController::class, 'indexshow'])->name('courses.videos');
-Route::get('/blog', [ArticleController::class, 'index'])->name('blog.index');
+Route::get('/blog', [ArticleController::class, 'indexshow'])->name('blog.index');
 
 Route::get('/Payment', [StripeController::class, 'index'])->name('index');
 Route::post('/stripe', [StripeController::class, 'stripe'])->name('stripe');

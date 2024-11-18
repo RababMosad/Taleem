@@ -26,6 +26,19 @@ class VideoController extends Controller
             'courses' => $courses,// تمرير جميع الفيديوهات إلى العرض
         ]);
     }
+    // public function index(Course $course)
+    //     {
+    //         $videos = $course->videos()->with('course')->get(); 
+    //         $allVideos = Video::with('course')->get();
+    //         $courses = Course::all(); 
+
+    //         return view('admin.video', [
+    //             'videos' => $videos, 
+    //             'course' => $course,
+    //             'allVideos' => $allVideos,
+    //             'courses' => $courses
+    //         ]);
+    //     }
 
     public function indexshow($courseId)
         {

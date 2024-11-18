@@ -16,6 +16,12 @@ class ArticleController extends Controller
 
         return view('admin.article', ['articles' => $articles]);
     }
+    public function indexshow()
+    {
+        $articles = Article::all(); 
+
+        return view('articles.articles', ['articles' => $articles]);
+    }
     /**
      * Show the form for creating a new resource.
      */

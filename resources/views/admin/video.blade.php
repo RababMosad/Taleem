@@ -24,7 +24,7 @@
             @foreach ($allVideos as $video) 
                 <tr>
                     <td>{{ $video->url }}</td>
-                    <td>{{ $video->course->title }}</td> 
+                    <td>{{ $video->course->title ??'None'}}</td> 
                     <td>
                         <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#showModal-{{ $video->id }}">عرض</a>
                         <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal-{{ $video->id }}">تعديل</a>
@@ -43,7 +43,7 @@
                             </div>
                             <div class="modal-body">
                                 <p><strong>الرابط:</strong> {{ $video->url }}</p>
-                                <p><strong>عنوان الكورس:</strong> {{ $video->course->title }}</p> 
+                                <p><strong>عنوان الكورس:</strong> {{ $video->course->title??'None' }}</p> 
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                         <select class="form-control" id="course_id" name="course_id" required>
                             @foreach ($courses as $course)
                                 <option value="{{ $course->id }}" {{ $course->id == $video->course_id ? 'selected' : '' }}>
-                                    {{ $course->title }}
+                                    {{ $course->title}}  
                                 </option>
                             @endforeach
                         </select>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -36,41 +37,75 @@ class CourseController extends Controller
      * Store a newly created resource in storage.
      */
    
+    // public function store(Request $request)
+    //     {
+    //         $request->validate([
+    //             'title' => 'required|string',
+    //             'description' => 'required|string',
+    //             'price' => 'required|numeric',
+    //             'is_active' => 'required|boolean',
+    //             'image_paht' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:2048' // Add validation for the image
+    //         ]);
+
+    //         if ($request->hasFile('image')) {
+    //             $imagePath = $request->file('image')->store('course_images', 'public'); 
+    //         } else {
+    //             $imagePath = null; 
+    //         }
+
+    //         Course::create([
+    //             'title' => $request->title,
+    //             'description' => $request->description,
+    //             'price' => $request->price,
+    //             'is_active' => $request->is_active,
+    //             'image_path' => $imagePath, // Store the image path in the database
+    //         ]);
+
+    //         return redirect()->route('courses.index')
+    //             ->with('success', 'تم إضافة الدورة بنجاح.');
+    //     }      
+   
+
     public function store(Request $request)
-        {
-            $request->validate([
-                'title' => 'required|string',
-                'description' => 'required|string',
-                'price' => 'required|numeric',
-                'is_active' => 'required|boolean',
-                'image_paht' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:2048' // Add validation for the image
-            ]);
-
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('course_images', 'public'); 
-            } else {
-                $imagePath = null; 
-            }
-
-            Course::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'price' => $request->price,
-                'is_active' => $request->is_active,
-                'image_path' => $imagePath, // Store the image path in the database
-            ]);
-
-            return redirect()->route('courses.index')
-                ->with('success', 'تم إضافة الدورة بنجاح.');
-        }       
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Course $course) // Use Route Model Binding 
     {
-        return view('admin.courses.show', compact('course'));
+        $request->validate([ 
+    
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'is_active' => 'required|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:2048' // التحقق من الصورة
+        ]);
+    
+        // إنشاء سجل الدورة بدون الصورة أولاً
+        $course = Course::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'is_active' => $request->is_active,
+        ]);
+
+    
+        // إذا تم رفع صورة، قم بتخزينها وتحديث سجل الدورة
+        if ($request->hasFile('image')) {
+            // تخزين الصورة في القرص العام (يمكنك تغيير القرص إلى آخر)
+            $imagePath = $request->file('image')->store('course_images', 'public');
+    
+            // تحديث سجل الدورة بمسار الصورة
+            $course->update(['image_path' => $imagePath]);
+        }
+        
+    
+        return redirect()->route('courses.index')->with('success', 'تم إضافة الدورة بنجاح.');
     }
+
+        /**
+         * Display the specified resource.
+         */
+        public function show(Course $course) // Use Route Model Binding 
+        {
+            return view('admin.courses.show', compact('course'));
+        }
 
     /**
      * Show the form for editing the specified resource.

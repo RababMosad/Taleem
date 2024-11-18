@@ -32,7 +32,8 @@
         <div class="course-card col-md-4">
           <div class="card mb-4">
             <a href="{{ route('dashboard') }}">
-              <img class="card-img-top" src="{{ asset('images/' . $course->image_path) }}" alt="Card image cap">
+              {{-- <img class="card-img-top" src="{{ asset('images/' . $course->image_path) }}" alt="Card image cap"> --}}
+              <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" > 
             </a>
             <div class="card-body">
               <h5 class="card-title">{{ $course->title }}</h5>
