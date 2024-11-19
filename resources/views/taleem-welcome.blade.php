@@ -44,7 +44,7 @@
               <p><strong>السعر:</strong> ${{ $course->price }}</p>
 
               @if ($course->isPurchasedByUser(auth()->user()) || auth()->user()->isAdmin())
-                  <a href="{{ route('courses.videos', ['courseId' => $course->id]) }}" class="btn btn-success">محتوى الدورة</a>
+                  <a href="{{ route('courses.videos', ['courseId' => $course->id ]) }}" class="btn btn-success">محتوى الدورة</a>
               @else
                 <form action="{{ route('stripe') }}" method="POST">
                     @csrf

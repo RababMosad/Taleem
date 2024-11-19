@@ -44,13 +44,16 @@ class VideoController extends Controller
         {
             // استرجاع جميع الفيديوهات المرتبطة بالكورس المحدد
             $videos = Video::where('course_id', $courseId)->get();
-                $course = Course::findOrFail($courseId);
-                if (!$course->isPurchasedByUser(auth()->user()) || auth()->user()->isAdmin()) {
+            $course = Course::findOrFail($courseId);
+            // $video = Video::with('course')->get();
+            if (!$course->isPurchasedByUser(auth()->user()) || auth()->user()->isAdmin()) 
+            {
                 return abort(403, 'غير مصرح لك بمشاهدة هذه الدورة');
             }
 
             // تمرير البيانات إلى الصفحة
-            return view('videos.videos', compact('videos'));
+            return view('Videos.videos', compact('videos'));
+            // return view('videos.videos', compact('videos', 'video'));
         }
 
     /**

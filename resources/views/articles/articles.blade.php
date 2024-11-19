@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -104,4 +104,91 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-</html> 
+</html>  --}}
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عرض مقالات المدونة</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <style>
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .course-cards {
+      height: calc(100vh - 150px); /* Set container height to viewport height minus header/footer */
+      overflow-y: scroll; /* Enable vertical scrolling */
+    }
+
+    .course-card {
+      /* ... existing card styles ... */
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  @include('layouts.navbar')
+
+  <div class="container">
+    <h3> المقالات الاخيرة</h3>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="course-cards">
+          @foreach ($articles as $article)
+            <div class="course-card">
+              <div class="card">
+                {{-- <img src="{{ $article->image }}" alt="{{ $article->title }}" class="card-img-top"> --}}
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ $article->title }}
+                  </h5>
+                  <p class="card-text">
+                    {{ Str::limit($article->content, 150) }}
+                  </p>
+                  <p class="card-text"><small class="text-muted">تاريخ النشر: {{ $article->created_at }}</small></p>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#articleModal{{ $article->id }}">
+                    @lang('messages.Read More...')
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="articleModal{{ $article->id }}" tabindex="-1" aria-labelledby="articleModalLabel{{ $article->id }}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="articleModalLabel{{ $article->id }}">
+                      {{ $article->title }}
+                    </h5>
+                    <div class="close-button-container">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                  </div>
+                  <div class="modal-body">
+                    {!! $article->content !!}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
