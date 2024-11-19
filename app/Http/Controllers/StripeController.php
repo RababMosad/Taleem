@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Payment;
+use App\Models\Course;
+
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -88,9 +90,10 @@ class StripeController extends Controller
                 session()->forget('product_name');
                 session()->forget('quantity');
                 session()->forget('price');
-
-                return "Payment is successful"; 
-
+               
+               $courseId = $subscription->course_id;
+                // return "Payment is successful"; 
+                return redirect()->route('courses.videos', $courseId);
             } else {
                 return redirect()->route('cancel'); 
             }

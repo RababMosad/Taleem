@@ -94,7 +94,8 @@
                                         <p>السعر: {{ $course->price }}</p>
                                         <p>الحالة: {{ $course->is_active ? 'مفعل' : 'غير مفعل' }}</p>
                                         @if ($course->image_path)
-                                            <p>الصورة: <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" width="200"></p> 
+                                            {{-- <p>الصورة: <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" width="200"></p>  --}}
+                                            <img src="{{ asset('images/' . $course->image_path) }}" alt="{{ $course->title }}" width="200"></p> 
                                         @endif
                                     </div>
                                 </div>
