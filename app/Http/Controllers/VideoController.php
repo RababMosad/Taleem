@@ -40,21 +40,43 @@ class VideoController extends Controller
     //         ]);
     //     }
 
-    public function indexshow($courseId)
-        {
-            // استرجاع جميع الفيديوهات المرتبطة بالكورس المحدد
-            $videos = Video::where('course_id', $courseId)->get();
-            $course = Course::findOrFail($courseId);
-            // $video = Video::with('course')->get();
-            if (!$course->isPurchasedByUser(auth()->user()) || auth()->user()->isAdmin()) 
-            {
-                return abort(403, 'غير مصرح لك بمشاهدة هذه الدورة');
-            }
+    // public function indexshow($courseId)
+    //     {
+            
+    //         $videos = Video::where('course_id', $courseId)->get();
+    //         $course = Course::findOrFail($courseId);
 
-            // تمرير البيانات إلى الصفحة
-            return view('Videos.videos', compact('videos'));
-            // return view('videos.videos', compact('videos', 'video'));
+        
+            
+    //         if (!$course->isPurchasedByUser(auth()->user()) || auth()->user()->isAdmin()) 
+    //         {
+    //             return abort(403, 'غير مصرح لك بمشاهدة هذه الدورة');
+    //         }
+
+           
+    //         return view('Videos.videos', compact('videos'));
+           
+    //     }
+
+    public function indexshow($courseId)
+    {
+        // التحقق من تسجيل الدخول
+        if (!auth()->check()) {
+            return redirect()->route('login');
         }
+    
+        // استرجاع الكورس
+        $course = Course::findOrFail($courseId);
+    
+        // التحقق من شراء الكورس
+        if (!$course->isPurchasedByUser(auth()->user()) && !auth()->user()->isAdmin()) {
+            return abort(404, 'هذه الدورة غير مصرح الدخول إليها');
+        }
+    
+        // استرجاع الفيديوهات
+        $videos = Video::where('course_id', $courseId)->get();
+        return view('Videos.videos', compact('videos'));
+    }
 
     /**
      * Show the form for creating a new resource.
